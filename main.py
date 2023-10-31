@@ -1,4 +1,9 @@
 #codigo andré, alterado pelo gabriel para verificar se as classes ainda existem durante a execução
+'''ETAPAS:
+1. Pegar conteúdo HTML a partidr da url
+2. Parsear o conteúdo com o Beautiful Soap
+3. Transformar em dicionário (talvez?)
+-GABRIEL'''
 import requests
 from bs4 import BeautifulSoup
 
