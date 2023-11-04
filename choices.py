@@ -2,16 +2,6 @@ class node:
     def __init__(self, dado):  #Classe da arvore de escolhas do usuario
         self.dado = dado
         self.filhos = []
-    
-class maisDesempenho(node):  #Classe herdade da arvore, indica atividades que necessitam de mais desempenho
-    def __init__(self, dado):
-        super().__init__(dado)
-        self.dado = dado
-
-class menosDesempenho(node):  #Classe herdade da arvore, indica atividades que necessitam de menos desempenho
-    def __init__(self, dado):
-        super().__init__(dado)
-        self.dado = dado
 
 class pecas_maisDesempenho: #Lista de strings para pesquisa, para usuários que querem mais desempenho
     def __init__(self):  # !Lembrar que é interessante colocar em um arquivo separado
