@@ -1,3 +1,5 @@
+#codigo Lara
+
 class node:
     def __init__(self, dado):
         self.dado = dado

@@ -26,14 +26,14 @@ ultima_pagina = math.ceil(int(qtd)/20)
 
 dic_produtos = {'titulo': [], 'preco': []} #dicionario
 
-for pagina in range(1, ultima_pagina + 1):
+for pagina in range(1, ultima_pagina + 1): #por pagina
     url_pag = f'https://www.kabum.com.br/computadores/pc?page_number={pagina}&page_size=20&facet_filters=&sort=most_searched'
     driver.get(url_pag)  # Navegue até a próxima página
     soup = BeautifulSoup(driver.page_source, 'html.parser')  # Parseie a página corrente
 
     produtos = soup.find_all('div', class_=re.compile('productCard'))
 
-    for produto in produtos:
+    for produto in produtos: #por produto
         titulo = produto.find('span', class_=re.compile('nameCard')).get_text().strip()
         preco = produto.find('span', class_=re.compile('priceCard')).get_text().strip()
         print(f'Titulo: {titulo}\nPreco: R${preco}')

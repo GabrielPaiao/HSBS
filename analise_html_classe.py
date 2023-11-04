@@ -1,11 +1,9 @@
-#codigo GABRIEL PEREIRA PAIAO
-import pandas as pd
+#codigo André e Gabriel
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import math
 import re
 from bs4 import BeautifulSoup
-from choices import mensagem
 
 class ChromeScraper:
     def __init__(self, url):
