@@ -53,13 +53,13 @@ class Analisa:  # Classe que analisa as respostas do usuário
         menosDesempenho = False
         maisDesempenho = False
 
-        for i in range(len(X.vetEscolha)):
+        for i in range(len(X.vetEscolha)):  #Percorre todo o vetor de saida de escolhas do usuario
 
-            if X.vetEscolha[i] == 1 and self.vetor[i] == 2:
+            if X.vetEscolha[i] == 1 and self.vetor[i] == 2:  #Se a saida for 1 e o numero de hierarquia for 2, a saida é mais desempenho true
                 maisDesempenho = True
                 break
 
-            elif X.vetEscolha[i] == 1 and self.vetor[i] == 1:
+            elif X.vetEscolha[i] == 1 and self.vetor[i] == 1:  #Se a saida for 1 e o numero de hierarquia for 1, a saida é menos desempenho true
                 menosDesempenho = True
                 i += 1
 
@@ -69,13 +69,11 @@ class Analisa:  # Classe que analisa as respostas do usuário
             else:
                 i += 1
 
-        if maisDesempenho == True:
-            #print(strings_list.MaisDesempenho().teste())
-            return strings_list.MaisDesempenho().filtroMaior(lista_produtos)
+        if maisDesempenho == True:  
+            return strings_list.MaisDesempenho().filtroMaior(lista_produtos)  #Se precisar de mais desempenho então executa a função filtroMaior
 
         elif menosDesempenho == True:
-            #print(strings_list.MenosDesempenho())
-            strings_list.MenosDesempenho()
+            return strings_list.MenosDesempenho().filtroMenor(lista_produtos)  #Se precisar de menos desempenho então executa a função filtroMenor
 
         else:
             print("Voce apenas digitou n")
