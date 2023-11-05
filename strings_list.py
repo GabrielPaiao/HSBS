@@ -7,7 +7,13 @@ class MaisDesempenho:  # Lista de strings para pesquisa, para usuários que quer
     def teste(self):
         print("MAIS desempenho")
 
-
+    def filtroMaior(self, lista_produtos):
+        nova_lista = []
+        for item in lista_produtos:
+            if '256GB' in item['titulo'].lower() or 'i5' in item['titulo'].lower():
+                nova_lista.append({'titulo': item['titulo'], 'preco': item['preco']})
+        return nova_lista
+    
 class MenosDesempenho:  # Lista de strings para pesquisa, para usuários que querem menos desempenho
     def __init__(self):
         self.Icore1 = "I5"
