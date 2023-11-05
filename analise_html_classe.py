@@ -30,8 +30,7 @@ def selection_sort(preco):
 
         # Converte os preços de volta para strings
     preco_formatado = [f'R${p:.2f}' for p in preco_numerico]
-    #print(preco_formatado)
-
+    return preco_formatado
 
 class ChromeScraperKabum:
     #Scraping dos produtos do site kabum
@@ -73,6 +72,9 @@ if __name__ == "__main__":
     url = 'https://www.kabum.com.br/computadores/pc'
     scraper = ChromeScraperKabum()
     lista = scraper.scrap_pages()
-    lista_precos = [item['preco'] for item in lista]
     #print("### PRECOS ###\n")
-    selection_sort(lista_precos)
+    lista_precos = selection_sort([item['preco'] for item in lista])
+
+    for i in range(len(lista)):
+        lista[i]['preco'] = lista_precos[i]
+        print(lista[i])

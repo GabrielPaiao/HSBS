@@ -10,9 +10,9 @@ class Node:
 
 class Mensagem:  # Classe de mensagens que irão aparecer para o usuario
     def __init__(self):
-        self.m1 = "Vou mostrar algumas opções, caso você vá usar o PC para uma dessas opções, digite s para sim ou n para não\n"  # Mensagens que estão sendo usadas no momento
-        self.m2 = "Digite s ou n: "
-        self.m3 = "\tEscolha deve ser Sim ou Nao (S ou N)!"
+        self.m1 = "\t\n\n### BEM-VINDO AO PROGRAMA HSBS (Hardware Suggestion Based on Software)###\n\nVou mostrar algumas opções, caso você vá usar o PC para uma dessas opções, digite s para sim ou n para não\n"  # Mensagens que estão sendo usadas no momento
+        self.m2 = "DIGITE 's' OU 'n': "
+        self.m3 = "\t@@@Escolha deve ser Sim ou Nao (S ou N)!@@@"
 
 
 class PerguntasUsuario:  # Classe que imprime e recebe informações
@@ -85,13 +85,13 @@ def def_raiz(lista_produtos):
     no1 = Node("Navegar na Web")
     raiz.hierarquia.append(1)
 
-    no2 = Node("Pagar contas")
+    no2 = Node("\nPagar contas")
     raiz.hierarquia.append(1)
 
-    no3 = Node("Jogar")
+    no3 = Node("\nJogar")
     raiz.hierarquia.append(2)
 
-    no4 = Node("Assistir videos")
+    no4 = Node("\nAssistir videos")
     raiz.hierarquia.append(2)
 
     raiz.filhos.append(no1)  # Colocando cada nó na arvore
