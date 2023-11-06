@@ -18,11 +18,11 @@ for j in range(len(lista_precos)):
     for i in range(len(produtos)):
         if produtos[i]['preco'].replace('.', '').replace(',', '.') == lista_precos[j]:
             produtos_ordenados.append(produtos[i])
-            print(produtos_ordenados[j])
+            #print(produtos_ordenados[j])
 
 produtos_att = choices.def_raiz(produtos_ordenados)
 
 print("\nPRODUTOS COMPATÍVEIS: ")
 for item in produtos_att:
-        print("--------------------------------------------------------------------------------------------------")
-        print(f"PC: {item['titulo']}\nPRECO: {item['preco']}\n")
+    print("--------------------------------------------------------------------------------------------------")
+    print(f"PC: {item['titulo']}\nPRECO: {item['preco']}\n")
