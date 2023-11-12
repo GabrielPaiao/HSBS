@@ -7,6 +7,10 @@ class Node:
         self.filhos = []
         self.hierarquia = []  # Vetor que hierarquiza cada nó
 
+    def adicionaFilhos(self, valor):
+        novo_filho = Node(valor)
+        self.filhos.append(novo_filho)
+
 
 class Mensagem:  # Classe de mensagens que irão aparecer para o usuario
     def __init__(self):
