@@ -42,6 +42,9 @@ class ChromeScraperKabum:
         self.driver.get('https://www.kabum.com.br/computadores/pc')
         self.driver.implicitly_wait(10)
         self.soup = BeautifulSoup(self.driver.page_source, 'html.parser')
+        self.pecasMaiorDesempenho = ['3080', '3070', '3060', 'RYZEN 9', 'I9', 'XEON', '32GB', '16GB']
+        self.pecasMedioDesempenho = ['3050', '2060', '1660', '1650', 'RYZEN 7', 'I7', 'RYZEN 5', 'I5', 'CHIP M1', '8GB']
+        self.pecasMenorDesempenho = ["1650", "1050", "750", "580", "570", "550", "VEGA", "PRO 555X", "INTEGRADA", "IRIS PLUS", "GEFORCE", "A10", "A8", "ATHLON", "A6", "GOLD", "PENTIUM", "CELERON"]
 
     def scrap_pages(self):
         # analisando os produtos por pagina (20 por pagina)
@@ -51,8 +54,8 @@ class ChromeScraperKabum:
         #ultima_pagina = math.ceil(int(qtd) / 20)
         lista_produtos = []
 
-        # for pagina in range(1, ultima_pagina + 1):
-        for pagina in range(1, 3):
+        #for pagina in range(1, ultima_pagina + 1):
+        for pagina in range(1, 10):
             url_pag = f'https://www.kabum.com.br/computadores/pc?page_number={pagina}&page_size=20&facet_filters=&sort=most_searched'
             self.driver.get(url_pag)
             self.soup = BeautifulSoup(self.driver.page_source, 'html.parser')
@@ -62,8 +65,13 @@ class ChromeScraperKabum:
                 titulo = produto.find('span', class_=re.compile('nameCard')).get_text().strip()
                 preco = produto.find('span', class_=re.compile('priceCard')).get_text().strip()
                 preco_formatado = preco.replace('\xa0', '')
-                #print(f'\nPreco: R${preco}')
-                lista_produtos.append({'titulo': titulo, 'preco': preco_formatado})
+
+                alto = sum(1 for peca in self.pecasMaiorDesempenho if peca in titulo) #analise desempenho
+                medio = sum(1 for peca in self.pecasMedioDesempenho if peca in titulo)
+                leve = sum(1 for peca in self.pecasMenorDesempenho if peca in titulo)
+                desempenho = 'ALTO' if alto > medio > leve else ('MEDIO' if medio > alto > leve else 'LEVE')
+
+                lista_produtos.append({'titulo': titulo, 'preco': preco_formatado, 'desempenho': desempenho})
 
         self.driver.quit() #saindo....
         return lista_produtos #retorna lista de dicionario

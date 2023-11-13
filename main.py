@@ -8,7 +8,7 @@ from analise_html_classe import selection_sort
 import choices
 
 print('Olá! Antes de começar, um carregamento rápido....')
-produtos = analise_html_classe.ChromeScraperKabum().scrap_pages() #uma lista de dics pra cada pc {titulo - preço}
+produtos = analise_html_classe.ChromeScraperKabum().scrap_pages() #uma lista de dics pra cada pc {titulo - preço - desmpenho}
 
 #SELECTION SORT
 lista_precos = selection_sort([item['preco'] for item in produtos])
@@ -25,4 +25,4 @@ produtos_att = choices.def_raiz(produtos_ordenados)
 print("\nPRODUTOS COMPATÍVEIS: ")
 for item in produtos_att:
     print("--------------------------------------------------------------------------------------------------")
-    print(f"PC: {item['titulo']}\nPRECO: {item['preco']}\n")
+    print(f"PC: {item['titulo']}\nPRECO: {item['preco']}\nDESEMPENHO: {item['desempenho']}")
