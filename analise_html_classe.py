@@ -65,13 +65,15 @@ class ChromeScraperKabum:
                 titulo = produto.find('span', class_=re.compile('nameCard')).get_text().strip()
                 preco = produto.find('span', class_=re.compile('priceCard')).get_text().strip()
                 preco_formatado = preco.replace('\xa0', '')
+                link = produto.find('a', href=True)['href']  # Extrai o link do produto
+                link_completo = f'https://www.kabum.com.br{link}' #tava saindo sem esse começo do link
 
                 alto = sum(1 for peca in self.pecasMaiorDesempenho if peca in titulo) #analise desempenho
                 medio = sum(1 for peca in self.pecasMedioDesempenho if peca in titulo)
                 leve = sum(1 for peca in self.pecasMenorDesempenho if peca in titulo)
                 desempenho = 'ALTO' if alto > medio > leve else ('MEDIO' if medio > alto > leve else 'LEVE')
 
-                lista_produtos.append({'titulo': titulo, 'preco': preco_formatado, 'desempenho': desempenho})
+                lista_produtos.append({'titulo': titulo, 'preco': preco_formatado, 'desempenho': desempenho, 'link': link_completo})
 
         self.driver.quit() #saindo....
         return lista_produtos #retorna lista de dicionario

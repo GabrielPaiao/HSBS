@@ -1,5 +1,4 @@
 #codigo Lara
-import strings_list
 
 class Node:
     def __init__(self, dado):  # Classe da arvore de escolhas
