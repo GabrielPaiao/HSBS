@@ -66,9 +66,9 @@ class ChromeScraperKabum:
                 preco = produto.find('span', class_=re.compile('priceCard')).get_text().strip()
                 preco_formatado = preco.replace('\xa0', '')
 
-                alto = sum(1 for peca in self.pecasMaiorDesempenho if peca in titulo) #analise desempenho
-                medio = sum(1 for peca in self.pecasMedioDesempenho if peca in titulo)
-                leve = sum(1 for peca in self.pecasMenorDesempenho if peca in titulo)
+                alto = sum(1 for peca in self.pecasMaiorDesempenho if peca in titulo.upper()) #analise desempenho
+                medio = sum(1 for peca in self.pecasMedioDesempenho if peca in titulo.upper())
+                leve = sum(1 for peca in self.pecasMenorDesempenho if peca in titulo.upper())
                 desempenho = 'ALTO' if alto > medio > leve else ('MEDIO' if medio > alto > leve else 'LEVE')
 
                 lista_produtos.append({'titulo': titulo, 'preco': preco_formatado, 'desempenho': desempenho})
