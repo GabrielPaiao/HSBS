@@ -5,7 +5,7 @@ IFSP - Jacareí, SP - Brasil
 """
 import analise_html_classe
 from analise_html_classe import selection_sort
-import choices
+import escolhas
 
 print('Olá! Antes de começar, um carregamento rápido....')
 produtos = analise_html_classe.ChromeScraperKabum().scrap_pages() #uma lista de dics pra cada pc {titulo - preço - desmpenho}
@@ -18,11 +18,15 @@ for j in range(len(lista_precos)):
     for i in range(len(produtos)):
         if produtos[i]['preco'].replace('.', '').replace(',', '.') == lista_precos[j]:
             produtos_ordenados.append(produtos[i])
-            print(produtos_ordenados[j])
 
-produtos_att = choices.def_raiz(produtos_ordenados)
+analisa_desempenhos = []
+
+for produto in produtos_ordenados:
+    analisa_desempenhos.append(produto['desempenho'])
+
+escolhas.main_raiz(produtos_ordenados, analisa_desempenhos)
 
 print("\nPRODUTOS COMPATÍVEIS: ")
-for item in produtos_att:
+for item in escolhas.lista_att:
     print("--------------------------------------------------------------------------------------------------")
     print(f"PC: {item['titulo']}\nPRECO: {item['preco']}\nDESEMPENHO: {item['desempenho']}\nLINK: {item['link']}")
