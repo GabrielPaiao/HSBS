@@ -1,7 +1,7 @@
 # codigo André e Gabriel
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-import math
+#import math
 import re
 from bs4 import BeautifulSoup
 

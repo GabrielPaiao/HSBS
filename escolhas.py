@@ -1,29 +1,37 @@
-#codigo Lara
 import analise_html_classe
 
 class No:
-    def __init__(self, dado):  # Classe da arvore de escolhas
+    def __init__(self, dado):
         self.dado = dado
         self.filhos = []
-        self.hierarquia = []  # Vetor que hierarquiza cada nó
+        self.hierarquia = []
 
 
-class Mensagem:  # Classe de mensagens que irão aparecer para o usuario
+class Mensagem:
     def __init__(self):
-        self.m1 = "\t\n\n### BEM-VINDO AO PROGRAMA HSBS (Hardware Suggestion Based on Software)###\n\nVou mostrar algumas opções, caso você vá usar o PC para uma dessas opções, digite s para sim ou n para não\n"  # Mensagens que estão sendo usadas no momento
+        self.m1 = "\t\n\n### BEM-VINDO AO PROGRAMA HSBS (Hardware Suggestion Based on Software)###\n\nVou mostrar algumas opções, caso você vá usar o PC para uma dessas opções, digite s para sim ou n para não\n"
         self.m2 = "DIGITE 's' OU 'n': "
         self.m3 = "\t@@@Escolha deve ser Sim ou Nao (S ou N)!@@@"
 
 
-class PerguntasUsuario:  # Classe que imprime e recebe informações
+class PerguntasUsuario:
     vetEscolha = []
 
-    def escolha(self, raiz):  # Função que imprime e recebe informações
+    def escolha(self, raiz):
         m = Mensagem()
         X = PerguntasUsuario
         print(m.m1)
-        
-        for filho in raiz.filhos:  # Inicio do laço de perguntas para o usuário
+
+        # Adicionando pergunta sobre o tipo de computador
+        while True:
+            tipo_computador = input("Você está procurando laptops/notebooks? (s/n): ").lower().strip()
+            if tipo_computador.isalpha() and tipo_computador in ["s", "n"]:
+                X.vetEscolha.append(1 if tipo_computador == "s" else 0)
+                break
+            else:
+                print(m.m3)
+
+        for filho in raiz.filhos:
             print(filho.dado)
 
             while True:
@@ -31,11 +39,11 @@ class PerguntasUsuario:  # Classe que imprime e recebe informações
 
                 if escolha.isalpha():
                     if escolha == "s":
-                        X.vetEscolha.append(1)  # Adiciona 1 no vetor usado para pesquisa de peças
+                        X.vetEscolha.append(1)
                         break
 
                     elif escolha == "n":
-                        X.vetEscolha.append(0)  # Adiciona 0 no vetor usado para pesquisa de peças
+                        X.vetEscolha.append(0)
                         break
 
                     else:
@@ -43,78 +51,60 @@ class PerguntasUsuario:  # Classe que imprime e recebe informações
                 else:
                     print(m.m3)
 
+
 lista_att = []
- # Usado para calcular o desempenho (Alto, Medio e Leve)
-class Analisa:  # Classe que analisa as respostas do usuário
+
+
+class Analisa:
     def __init__(self, Xlista_produtos, Xqt_opcoes, Xvetor):
         self.lista_produtos = Xlista_produtos
         self.qt_opcoes = Xqt_opcoes
         self.vetor = Xvetor
         self.Pesquisa = None
-    def analisa_vet(self):  # Analisa cada posição dos vetores de hierarquia e escolhas
-        X = PerguntasUsuario()
-        
-        for i in range(len(X.vetEscolha)):  #Percorre todo o vetor de saida de escolhas do usuario
 
-            if X.vetEscolha[i] == 1 and self.vetor[i] == 1:  #Se a saida for S e o numero de hierarquia for 1, então, saida é desempenho alto 
+    def analisa_vet(self):
+        X = PerguntasUsuario()
+
+        for i, escolha in enumerate(X.vetEscolha):
+            if escolha == 1 and self.vetor[i] == 1:
                 self.Pesquisa = 'ALTO'
                 break
-
-            elif X.vetEscolha[i] == 1 and self.vetor[i] == 2:  #Se a saida for 1 e o numero de hierarquia for 2, a saida é desempenho médio
+            elif escolha == 1 and self.vetor[i] == 2:
                 self.Pesquisa = 'MEDIO'
-                i += 1
-            
-            elif X.vetEscolha[i] == 1 and self.vetor[i] == 3:  #Se a saida for 1 e o numero de hierarquia for 3, a saida é desempenho leve
-                if self.Pesquisa == None or self.Pesquisa == 'LEVE':
-                    self.Pesquisa = 'LEVE'
-                    i += 1
+            elif escolha == 1 and self.vetor[i] == 3:
+                self.Pesquisa = 'LEVE' if self.Pesquisa is None or self.Pesquisa == 'LEVE' else self.Pesquisa
 
-                else:
-                    i += 1
+        if self.Pesquisa is None and i == self.qt_opcoes:
+            print("Foi digitado apenas N.")
 
-            elif i == self.qt_opcoes and self.Pesquisa == '':
-                print("Foi digitado apenas N.") 
-
-            else:
-                i += 1
         return self.Pesquisa
-    
-    def nova_lista(self, Xanalisa_desempehos):
-        self.analisa_desempenhos = Xanalisa_desempehos
-        i = 0
 
-        for desempenho in self.analisa_desempenhos:
+    def nova_lista(self, Xanalisa_desempenhos, tipo_computador):
+        self.analisa_desempenhos = Xanalisa_desempenhos
+
+        for desempenho, produto in zip(self.analisa_desempenhos, self.lista_produtos):
             if desempenho == self.Pesquisa:
-                x = self.lista_produtos[i]
-                lista_att.append(x)
-            i += 1
+                # Verifica se o usuário deseja ver laptops/notebooks
+                if tipo_computador == 1 and ("laptop" in produto['titulo'].lower() or "notebook" in produto['titulo'].lower()):
+                    lista_att.append(produto)
+                elif tipo_computador == 0 and not ("laptop" in produto['titulo'].lower() or "notebook" in produto['titulo'].lower()):
+                    lista_att.append(produto)
+
 
 def main_raiz(lista_produtos, analisa_desempenhos):
-    raiz = No("Raiz")  # Nomeando nós da arvore de escolhas e hierarquizando
-
-    no1 = No("Navegar na Web")
-    raiz.hierarquia.append(3)      # Hierarquia 3 = Desempenho Leve
-                                                
-    no2 = No("\nPagar contas")
-    raiz.hierarquia.append(3)
-
-    no3 = No("\nAssistir videos")    # Hierarquia 2 = Desempenho Medio
-    raiz.hierarquia.append(2)
-
-    no4 = No("\nJogar")              # Hierarquia 1 = Desempenho Alto
-    raiz.hierarquia.append(1)
-
+    raiz = No("Raiz")
+    raiz.hierarquia.extend([3, 3, 2, 1])
+    raiz.filhos.extend([No("Navegar na Web"), No("\nPagar contas"), No("\nAssistir videos"), No("\nJogar")])
     qt_opcoes = 4
-
-    raiz.filhos.append(no1)  # Colocando cada nó na arvore
-    raiz.filhos.append(no2)
-    raiz.filhos.append(no3)
-    raiz.filhos.append(no4)
 
     a = PerguntasUsuario()
     a.escolha(raiz)
 
+    # Pega a escolha sobre laptops/notebooks
+    tipo_computador = PerguntasUsuario.vetEscolha[0]
+
     b = Analisa(lista_produtos, qt_opcoes, raiz.hierarquia)
     b.analisa_vet()
-    b.nova_lista(analisa_desempenhos)
+    b.nova_lista(analisa_desempenhos, tipo_computador)
+
     return lista_att
