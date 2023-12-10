@@ -44,9 +44,9 @@ print("\n-------------PRODUTOS COMPATÍVEIS-------------: ")
 print("LOJA KaBum:")
 for item in escolhas_kabum:
     print("--------------------------------------------------------------------------------------------------")
-    print(f"PC: {item['titulo']}\nPRECO: {item['preco']}\nDESEMPENHO: {item['desempenho']}\nLINK: {item['link']}")
+    print(f"Nome: {item['titulo']}\nPRECO: {item['preco']}\nDESEMPENHO: {item['desempenho']}\nLINK: {item['link']}")
 
 print("\n\n--------------------------------------------------------------------------------------------------\nLOJA Amazon:")
 for item in escolhas_amazon:
     print("--------------------------------------------------------------------------------------------------")
-    print(f"PC: {item['titulo']}\nPRECO: {item['preco']}\nDESEMPENHO: {item['desempenho']}\nLINK: {item['link']}")
+    print(f"Nome: {item['titulo']}\nPRECO: {item['preco']}\nDESEMPENHO: {item['desempenho']}\nLINK: {item['link']}")

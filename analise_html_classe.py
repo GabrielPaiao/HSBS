@@ -106,6 +106,33 @@ class ChromeScraperAmazon:
                 lista_produtos.append({'titulo': titulo, 'preco': preco, 'desempenho': desempenho, 'link': link_completo})
                 desempenhos_analisa_amazon.append(desempenho)
         
+
+        for pagina in range(1, 3+2):
+            url_pag = f'https://www.amazon.com.br/s?i=computers&rh=n%3A16364755011&fs=true&page{pagina}&qid=1702251636&ref=sr_pg_2'
+            self.driver.get(url_pag)
+            self.driver.implicitly_wait(10)
+            self.soup = BeautifulSoup(self.driver.page_source, 'html.parser')
+
+            produtos = self.soup.find_all('div', class_=re.compile('s-result-item s-asin'))
+
+            for produto in produtos:
+                titulo = produto.find('span', class_='a-size-base-plus a-color-base a-text-normal').get_text().strip()
+                preco_element = produto.find('span', class_='a-price')
+                if preco_element:
+                    preco = preco_element.find('span', class_='a-offscreen').get_text().strip()
+                    preco = preco.replace('\xa0', '')
+                else: 
+                    preco = 'Nenhuma opção de compra em destaque'
+                link = produto.find('a', href = True)['href']
+                link_completo = f'https://amazon.com.br/{link}'
+                alto = sum(1 for peca in self.pecasMaiorDesempenho if peca in titulo.upper()) #analise desempenho
+                medio = sum(1 for peca in self.pecasMedioDesempenho if peca in titulo.upper())
+                leve = sum(1 for peca in self.pecasMenorDesempenho if peca in titulo.upper())
+                desempenho = 'ALTO' if alto > medio > leve else ('MEDIO' if medio > alto > leve or medio == alto == leve else 'LEVE')
+                
+                lista_produtos.append({'titulo': titulo, 'preco': preco, 'desempenho': desempenho, 'link': link_completo})
+                desempenhos_analisa_amazon.append(desempenho)
+        
         self.driver.quit()
         return lista_produtos
 
@@ -153,9 +180,30 @@ class ChromeScraperKabum:
                 lista_produtos.append({'titulo': titulo, 'preco': preco_formatado, 'desempenho': desempenho, 'link': link_completo})
                 desempenhos_analisa_kabum.append(desempenho)
         
-        analise_produtos = lista_produtos
+        for pagina in range(1, 10):
+            url_pag = f'https://www.kabum.com.br/computadores/notebooks?page_number={pagina}&page_size=20&facet_filters=&sort=most_searched'
+            self.driver.get(url_pag)
+            self.soup = BeautifulSoup(self.driver.page_source, 'html.parser')
+            produtos = self.soup.find_all('div', class_=re.compile('productCard'))
+
+            for produto in produtos:
+                titulo = produto.find('span', class_=re.compile('nameCard')).get_text().strip()
+                preco = produto.find('span', class_=re.compile('priceCard')).get_text().strip()
+                preco_formatado = preco.replace('\xa0', '')
+                link = produto.find('a', href=True)['href']  # Extrai o link do produto
+                link_completo = f'https://www.kabum.com.br{link}' #tava saindo sem esse começo do link
+
+                alto = sum(1 for peca in self.pecasMaiorDesempenho if peca in titulo.upper()) #analise desempenho
+                medio = sum(1 for peca in self.pecasMedioDesempenho if peca in titulo.upper())
+                leve = sum(1 for peca in self.pecasMenorDesempenho if peca in titulo.upper())
+                desempenho = 'ALTO' if alto > medio > leve else ('MEDIO' if medio > alto > leve or medio == alto == leve else 'LEVE')
+                
+                lista_produtos.append({'titulo': titulo, 'preco': preco_formatado, 'desempenho': desempenho, 'link': link_completo})
+                desempenhos_analisa_kabum.append(desempenho)
+        
         self.driver.quit() #saindo....
         return lista_produtos #retorna lista de dicionario
+
     
 if __name__ == '__main__':
     scraper = ChromeScraperKabum()
