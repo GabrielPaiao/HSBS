@@ -15,9 +15,6 @@ produtos_amazon = analise_html_classe.ChromeScraperAmazon().scrap_pages()
 lista_precos_kabum = selection_sort([item['preco'] for item in produtos_kabum])
 lista_precos_amazon = selection_sort([item['preco'] for item in produtos_amazon if item['preco'] != 'Nenhuma opção de compra em destaque'])
 
-vetorGeralProdutos = []
-vetorGeralDesempenhos = []
-
 produtos_ordenados_kabum = []
 for j in range(len(lista_precos_kabum)):
     for i in range(len(produtos_kabum)):

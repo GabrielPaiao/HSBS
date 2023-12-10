@@ -85,9 +85,9 @@ class Analisa:
 
 def main_raiz():
     raiz = No("Raiz")
-    raiz.hierarquia.extend([3, 3, 2, 1])
-    raiz.filhos.extend([No("Navegar na Web"), No("\nPagar contas"), No("\nAssistir videos"), No("\nJogar")])
-    qt_opcoes = 4
+    raiz.hierarquia.extend([3, 3, 2, 1, 3, 2])
+    raiz.filhos.extend([No("Navegar na Web"), No("\nPagar contas"), No("\nAssistir videos"), No("\nJogar"), No("\nUsar Pacote Office"), No("\nFazer chamadas de video")])
+    qt_opcoes = 6
 
     a = PerguntasUsuario()
     tipo_computador =  a.escolha(raiz)
@@ -98,13 +98,17 @@ def main_raiz():
     return tipo_computador, PesquisaFinal
 
 def nova_lista(VetorProd, VetorDesem, tipo_computador, XPesquisa):
+    lista_att = []
     for desempenho, produto in zip(VetorDesem, VetorProd):
+        titulo = produto['titulo'].lower().strip()
+        if desempenho == XPesquisa:   
 
-        if desempenho == XPesquisa:                # Verifica se o usuário deseja ver laptops/notebooks
-            if tipo_computador == 1 and ("laptop" in produto['titulo'].lower() or "notebook" in produto['titulo'].lower()):
-                lista_att.append(produto)
+            if tipo_computador == 1:
+                if ('laptop' in titulo) or ('notebook' in titulo):
+                    lista_att.append(produto)
 
-            elif tipo_computador == 0 and not ("laptop" in produto['titulo'].lower() or "notebook" in produto['titulo'].lower()):
-                lista_att.append(produto)
+            else:
+                if ('pc' in titulo) or ('computador' in titulo):
+                    lista_att.append(produto)
             
     return lista_att
