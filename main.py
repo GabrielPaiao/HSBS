@@ -24,28 +24,19 @@ for j in range(len(lista_precos_kabum)):
         if produtos_kabum[i]['preco'].replace('.', '').replace(',', '.') == lista_precos_kabum[j]:
             produtos_ordenados_kabum.append(produtos_kabum[i])
 
-vetorGeralProdutos.append(produtos_ordenados_kabum)
-
 produtos_ordenados_amazon = []
 for j in range(len(lista_precos_amazon)):
     for i in range(len(produtos_amazon)):
         if produtos_amazon[i]['preco'].replace('.', '').replace(',', '.') == lista_precos_amazon[j]:
             produtos_ordenados_amazon.append(produtos_amazon[i])
 
-vetorGeralProdutos.append(produtos_ordenados_amazon)
-
 analisa_desempenhos_kabum = []
-
 for produto in produtos_ordenados_kabum:
     analisa_desempenhos_kabum.append(produto['desempenho'])
 
-vetorGeralDesempenhos.append(analisa_desempenhos_kabum)
-
 analisa_desempenhos_amazon = []
-
 for produto in produtos_ordenados_amazon:
     analisa_desempenhos_amazon.append(produto['desempenho'])
-
 
 tipo, PesquisaFinal = escolhas.main_raiz()
 
