@@ -26,7 +26,7 @@ class PerguntasUsuario:
         while True:
             tipo_computador = input("Você está procurando laptops/notebooks? (s/n): ").lower().strip()
             if tipo_computador.isalpha() and tipo_computador in ["s", "n"]:
-                X.vetEscolha.append(1 if tipo_computador == "s" else 0)
+                tipo_computador = 1 if tipo_computador == "s" else 0
                 break
             else:
                 print(m.m3)
@@ -50,16 +50,15 @@ class PerguntasUsuario:
                         print(m.m3)
                 else:
                     print(m.m3)
+        return tipo_computador
 
 
 lista_att = []
 
-
 class Analisa:
-    def __init__(self, Xlista_produtos, Xqt_opcoes, Xvetor):
-        self.lista_produtos = Xlista_produtos
+    def __init__(self, Xqt_opcoes, XvetHierarquia):
         self.qt_opcoes = Xqt_opcoes
-        self.vetor = Xvetor
+        self.vetor = XvetHierarquia
         self.Pesquisa = None
 
     def analisa_vet(self):
@@ -69,42 +68,43 @@ class Analisa:
             if escolha == 1 and self.vetor[i] == 1:
                 self.Pesquisa = 'ALTO'
                 break
+
             elif escolha == 1 and self.vetor[i] == 2:
                 self.Pesquisa = 'MEDIO'
+
             elif escolha == 1 and self.vetor[i] == 3:
-                self.Pesquisa = 'LEVE' if self.Pesquisa is None or self.Pesquisa == 'LEVE' else self.Pesquisa
+                if self.Pesquisa is None or self.Pesquisa == 'LEVE':
+                    self.Pesquisa = 'LEVE' 
 
         if self.Pesquisa is None and i == self.qt_opcoes:
             print("Foi digitado apenas N.")
-
+            return 0
+        
         return self.Pesquisa
+        
 
-    def nova_lista(self, Xanalisa_desempenhos, tipo_computador):
-        self.analisa_desempenhos = Xanalisa_desempenhos
-
-        for desempenho, produto in zip(self.analisa_desempenhos, self.lista_produtos):
-            if desempenho == self.Pesquisa:
-                # Verifica se o usuário deseja ver laptops/notebooks
-                if tipo_computador == 1 and ("laptop" in produto['titulo'].lower() or "notebook" in produto['titulo'].lower()):
-                    lista_att.append(produto)
-                elif tipo_computador == 0 and not ("laptop" in produto['titulo'].lower() or "notebook" in produto['titulo'].lower()):
-                    lista_att.append(produto)
-
-
-def main_raiz(lista_produtos, analisa_desempenhos):
+def main_raiz():
     raiz = No("Raiz")
     raiz.hierarquia.extend([3, 3, 2, 1])
     raiz.filhos.extend([No("Navegar na Web"), No("\nPagar contas"), No("\nAssistir videos"), No("\nJogar")])
     qt_opcoes = 4
 
     a = PerguntasUsuario()
-    a.escolha(raiz)
+    tipo_computador =  a.escolha(raiz)
 
-    # Pega a escolha sobre laptops/notebooks
-    tipo_computador = PerguntasUsuario.vetEscolha[0]
+    b = Analisa(qt_opcoes, raiz.hierarquia)
+    PesquisaFinal = b.analisa_vet()
 
-    b = Analisa(lista_produtos, qt_opcoes, raiz.hierarquia)
-    b.analisa_vet()
-    b.nova_lista(analisa_desempenhos, tipo_computador)
+    return tipo_computador, PesquisaFinal
 
+def nova_lista(VetorProd, VetorDesem, tipo_computador, XPesquisa):
+    for desempenho, produto in zip(VetorDesem, VetorProd):
+
+        if desempenho == XPesquisa:                # Verifica se o usuário deseja ver laptops/notebooks
+            if tipo_computador == 1 and ("laptop" in produto['titulo'].lower() or "notebook" in produto['titulo'].lower()):
+                lista_att.append(produto)
+
+            elif tipo_computador == 0 and not ("laptop" in produto['titulo'].lower() or "notebook" in produto['titulo'].lower()):
+                lista_att.append(produto)
+            
     return lista_att
